@@ -1,0 +1,57 @@
+---
+title: "Respuestas"
+author: "Carlos Miguel Patiño"
+date: "19/05/2015"
+output: html_document
+---
+
+
+```{r, echo=FALSE}
+library(lubridate)
+library(ggplot2)
+training <- read.csv('training_set.csv', stringsAsFactors=FALSE)
+```
+
+#Pregunta 1
+
+Se podría proveer por separado lo que le pide la compañía y lo que la compañía le vende a los clientes. De esta forma se podría hacer un mejor análisis de la variables cont_ordenes.
+
+```{r}
+training$fecha <- as.Date(training$fecha, "%Y-%m-%d")
+training$dia <- wday(training$fecha, label = TRUE)
+dias <- split(training, training$dia)
+```
+
+```{r}
+domingo <- as.data.frame(dias[[1]])
+lunes <- as.data.frame(dias[[2]])
+martes <- as.data.frame(dias[[3]])
+miercoles <- as.data.frame(dias[[4]])
+jueves <- as.data.frame(dias[[5]])
+viernes <- as.data.frame(dias[[6]])
+sabado <- as.data.frame(dias[[7]])
+```
+
+```{r}
+ventas_domingo <- sum(domingo$conteo_ordenes)
+ventas_lunes <- sum(lunes$conteo_ordenes)
+ventas_martes <- sum(martes$conteo_ordenes)
+ventas_miercoles <- sum(miercoles$conteo_ordenes)
+ventas_jueves <- sum(jueves$conteo_ordenes)
+ventas_viernes <- sum(viernes$conteo_ordenes)
+ventas_sabado <- sum(sabado$conteo_ordenes)
+```
+
+```{r, echo=FALSE}
+cat("Ordenes en domingo: ", ventas_domingo)
+cat("Ordenes en lunes: ", ventas_lunes)
+cat("Ordenes en martes: ", ventas_martes)
+cat("Ordenes en miercoles: ", ventas_miercoles)
+cat("Ordenes en jueves: ", ventas_jueves)
+cat("Ordenes en viernes: ", ventas_viernes)
+cat("Ordenes en sabado: ", ventas_sabado)
+```
+
+#Preguntas 2 y 3
+
+Se observa en los resultados que el día con mayor número de órdenes es el jueves y el día con menor número de órdenes es el domingo
